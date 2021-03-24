@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # @Date    : Dec-19-20 19:28
-# @Author  : Kelly Hwong (dianhuangkan@gmail.com)
+# @Author  : Kan HUANG (kan.huang@connect.ust.hk)
 # @RefLink : https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html
 
 import torch

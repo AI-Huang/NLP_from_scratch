@@ -20,7 +20,7 @@ Help!	À l'aide !
 Jump.	Saute.
 ```
 
-The separator of languages is `'\t'`, so we split each line by `'\t'`:
+The delimiter of languages is `'\t'`, so we split each line by `'\t'`:
 
 ```Python
 pairs = [[normalizeString(s) for s in l.split('\t')] for l in lines]
@@ -32,16 +32,13 @@ After above TODO
 
 ### Training, data feeding
 
-In the original code in PyTorch tutorial\[3\],
-
-in function `trainIters`:
+In the original code in PyTorch tutorial\[3\], in function `trainIters`:
 
 ```Python
-training_pairs = [tensorsFromPair(random.choice(pairs))
-                  for i in range(n_iters)]
+training_pairs = [tensorsFromPair(random.choice(pairs)) for i in range(n_iters)]
 ```
 
-function `tensorsFromPair` takes two **global** variables `input_lang` and `output_lang`.
+Function `tensorsFromPair` takes two **global** variables `input_lang` and `output_lang`.
 
 ```Python
 def tensorsFromPair(pair):
