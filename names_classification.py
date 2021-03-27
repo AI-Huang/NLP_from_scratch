@@ -12,7 +12,7 @@ import math
 import pickle
 from typing import no_type_check_decorator
 import torch
-import torch
+import torch.nn as nn
 from NLP_from_scratch.utils.names.data import n_letters, all_categories, n_categories, letterToTensor, lineToTensor, categoryFromOutput, randomTrainingExample
 from NLP_from_scratch.models.names.rnn import RNN
 
