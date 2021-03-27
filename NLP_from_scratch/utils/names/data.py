@@ -71,9 +71,7 @@ def lineToTensor(line):
 
 
 def categoryFromOutput(output):
-    print(output.size())
     top_n, top_i = output.topk(1)
-    print(top_i)
     category_i = top_i[0].item()
     return all_categories[category_i], category_i
 
@@ -89,7 +87,6 @@ for filename in findFiles('data/names/*.txt'):
     category_lines[category] = lines
 
 n_categories = len(all_categories)
-print(f"n_categories: {n_categories}")
 
 
 def randomChoice(l):
@@ -106,10 +103,15 @@ def randomTrainingExample():
 
 
 def main():
-    # Prepare data
+    # All categories
+    print(f"n_categories: {n_categories}")
+    print(f"all_categories: {all_categories}")
+
+    # Prepare data's pipeline
     print(findFiles('data/names/*.txt'))
     print(unicodeToAscii('Ślusàrski'))
 
+    print("First 5 names in category Italian:")
     print(category_lines['Italian'][:5])
 
     # Turning Names into Tensors

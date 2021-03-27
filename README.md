@@ -6,6 +6,28 @@ NLP_from_scratch, PyTorch NLP tutorials
 
 ![RNN Model](./assets/rnn_model.png)
 
+### Prepare Data's Pipeline
+
+Index language files by categories:
+
+```Python
+def findFiles(path): return glob.glob(path)
+
+for filename in findFiles('data/names/*.txt'):
+    category = os.path.splitext(os.path.basename(filename))[0]
+    all_categories.append(category)
+    lines = readLines(filename)
+    category_lines[category] = lines
+```
+
+The results (on MacOS) of `all_categories` is:
+
+```bash
+['Czech', 'German', 'Arabic', 'Japanese', 'Chinese', 'Vietnamese', 'Russian', 'French', 'Irish', 'English', 'Spanish', 'Greek', 'Italian', 'Portuguese', 'Scottish', 'Dutch', 'Korean', 'Polish']
+```
+
+This is not alphabetical due to the `glob` package. However, this order is which the model's one-hot vector output will follow.
+
 ## NLP: Seq2Seq Model
 
 ### Data and Data Preprocessing
