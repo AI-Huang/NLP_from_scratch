@@ -30,6 +30,7 @@ class RNN(nn.Module):
 
 
 def main():
+    n_letters, n_categories = 56, 18
     n_hidden = 128
     rnn = RNN(n_letters, n_hidden, n_categories)
 

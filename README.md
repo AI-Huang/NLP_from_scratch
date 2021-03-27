@@ -2,9 +2,13 @@
 
 NLP_from_scratch, PyTorch NLP tutorials
 
-## Seq2Seq model
+## NLP: Name Classification with RNN
 
-### Data and data preprocessing
+![RNN Model](./assets/rnn_model.png)
+
+## NLP: Seq2Seq Model
+
+### Data and Data Preprocessing
 
 To read the data file we will split the file into lines, and then split lines into pairs. The files are all English → Other Language, so if we want to translate from Other Language → English I added the `reverse` flag to reverse the pairs.
 
