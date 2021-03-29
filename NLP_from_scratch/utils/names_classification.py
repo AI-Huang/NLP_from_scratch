@@ -4,6 +4,8 @@
 # @Author  : Kan HUANG (kan.huang@connect.ust.hk)
 # @RefLink : https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
 
+from __future__ import unicode_literals, print_function, division
+
 import os
 import random
 import string
@@ -18,7 +20,6 @@ def findFiles(path): return glob.glob(path)
 
 all_letters = string.ascii_letters + " .,;'"  # Five extra letters
 n_letters = len(all_letters)
-# print(f"n_letters: {n_letters}")
 
 
 def unicodeToAscii(s):

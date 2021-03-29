@@ -10,14 +10,13 @@ import os
 import time
 import math
 import pickle
-from typing import no_type_check_decorator
 import torch
 import torch.nn as nn
-from NLP_from_scratch.utils.names.data import n_letters, all_categories, n_categories, letterToTensor, lineToTensor, categoryFromOutput, randomTrainingExample
-from NLP_from_scratch.models.names.rnn import RNN
+from NLP_from_scratch.utils.names_classification import n_letters, all_categories, n_categories, letterToTensor, lineToTensor, categoryFromOutput, randomTrainingExample
+from NLP_from_scratch.models.names_classification import RNN
 
 
-def train(category_tensor, line_tensor, criterion, rnn, learning_rate):
+def train(rnn, learning_rate, criterion, category_tensor, line_tensor):
     hidden = rnn.initHidden()
 
     rnn.zero_grad()
@@ -63,6 +62,7 @@ def training():
     # If you set this too high, it might explode. If too low, it might not learn
     learning_rate = 0.005
 
+    # Parameters
     n_iters = 100000
     print_every = 5000
     plot_every = 1000
@@ -75,8 +75,8 @@ def training():
 
     for iter in range(1, n_iters + 1):
         category, line, category_tensor, line_tensor = randomTrainingExample()
-        output, loss = train(
-            category_tensor, line_tensor, criterion, rnn, learning_rate)
+        output, loss = train(rnn, learning_rate, criterion,
+                             category_tensor, line_tensor)
         current_loss += loss
 
         # Print iter number, loss, name and guess
@@ -91,14 +91,14 @@ def training():
             all_losses.append(current_loss / plot_every)
             current_loss = 0
 
-    log_dir = "./assets/results/names/logs"
+    log_dir = "./assets/results/names_classification/logs"
     os.makedirs(log_dir, exist_ok=True)
     path = os.path.join(log_dir, "all_losses.pickle")
     with open(path, "wb") as f:
         pickle.dump(all_losses, f)
         print(f"Saved all_losses to: {path}")
 
-    save_dir = "./assets/results/names/weights"
+    save_dir = "./assets/results/names_classification/weights"
     os.makedirs(save_dir, exist_ok=True)
     weights_name = f"rnn_model-loss-{all_losses[-1]:.4f}.pt"
     weights_path = os.path.join(save_dir, weights_name)
@@ -119,7 +119,7 @@ def reload_model():
     n_hidden = 128
     rnn = RNN(n_letters, n_hidden, n_categories)
 
-    save_dir = "./assets/results/names/weights"
+    save_dir = "./assets/results/names_classification/weights"
     only_pt_files = [f for f in os.listdir(save_dir) if os.path.isfile(
         os.path.join(save_dir, f)) and f.endswith(".pt")]
 

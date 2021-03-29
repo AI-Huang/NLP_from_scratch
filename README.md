@@ -1,8 +1,8 @@
 # NLP_from_scratch
 
-NLP_from_scratch, PyTorch NLP tutorials
+NLP_from_scratch, PyTorch NLP tutorials series.
 
-## NLP: Name Classification with RNN
+## NLP: Names Classification with RNN
 
 ![RNN Model](./assets/rnn_model.png)
 
@@ -28,7 +28,27 @@ The results (on MacOS) of `all_categories` is:
 
 This is not alphabetical due to the `glob` package. However, this order is which the model's one-hot vector output will follow.
 
-## NLP: Seq2Seq Model
+## NLP: Names Generation with RNN
+
+![RNN Model for Names Generation](./assets/rnn_model_2.png)
+
+This model is supervised and fed by (category, line, line). Notice that the target line is totally the same with the input line but with different data representation and has an extra `EOS`.
+
+```python
+def randomTrainingExample():
+    """
+    Make category, input, and target tensors from a random category, line pair
+    """
+    category, line = randomTrainingPair()
+    category_tensor = categoryTensor(category)
+    input_line_tensor = inputTensor(line)
+    target_line_tensor = targetTensor(line)
+    return category_tensor, input_line_tensor target_line_tensor
+```
+
+## NLP: Translation
+
+Seq2Seq Model
 
 ### Data and Data Preprocessing
 
