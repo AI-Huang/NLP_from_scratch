@@ -70,16 +70,54 @@ def training():
         total_loss += loss
 
         if iter % print_every == 0:
-            print('%s (%d %d%%) %.4f' %
-                  (timeSince(start), iter, iter / n_iters * 100, loss))
+            print(
+                f"{timeSince(start)}|iter: ({iter} {int(iter/n_iters*100)}%)|loss: {loss:.4f}")
 
         if iter % plot_every == 0:
             all_losses.append(total_loss / plot_every)
             total_loss = 0
 
+    log_dir = "./assets/results/names_generation/logs"
+    os.makedirs(log_dir, exist_ok=True)
+    path = os.path.join(log_dir, "all_losses.pickle")
+    with open(path, "wb") as f:
+        pickle.dump(all_losses, f)
+        print(f"Saved all_losses to: {path}")
+
+    save_dir = "./assets/results/names_generation/weights"
+    os.makedirs(save_dir, exist_ok=True)
+    weights_name = f"rnn_model-loss-{all_losses[-1]:.4f}.pt"
+    weights_path = os.path.join(save_dir, weights_name)
+    torch.save(rnn.state_dict(), weights_path)
+    print(f"Save weights to: {weights_path}.")
+
+
+def plotting():
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
+
+    log_dir = "./assets/results/names_generation/logs"
+    os.makedirs(log_dir, exist_ok=True)
+    path = os.path.join(log_dir, "all_losses.pickle")
+    with open(path, "rb") as f:
+        all_losses = pickle.load(f)
+
+    plt.figure()
+    plt.plot(all_losses)
+    plt.title("Training loss")
+    plt.xlabel("Steps'00")
+    plt.ylabel("NIL loss")
+    plt.grid()
+    plt.show()
+
+
+def evaluating():
+    pass
+
 
 def main():
-    training()
+    # training()
+    plotting()
     # evaluating()
     # predicting()
 

@@ -106,6 +106,24 @@ def training():
     print(f"Save weights to: {weights_path}.")
 
 
+def plotting():
+    import matplotlib.pyplot as plt
+
+    log_dir = "./assets/results/names_generation/logs"
+    os.makedirs(log_dir, exist_ok=True)
+    path = os.path.join(log_dir, "all_losses.pickle")
+    with open(path, "rb") as f:
+        all_losses = pickle.load(f)
+
+    plt.figure()
+    plt.plot(all_losses)
+    plt.title("Training loss")
+    plt.xlabel("Steps'00")
+    plt.ylabel("NIL loss")
+    plt.grid()
+    plt.show()
+
+
 def evaluate(rnn, line_tensor):
     # Just return an output given a line
     hidden = rnn.initHidden()
@@ -195,6 +213,7 @@ def predicting():
 
 def main():
     # training()
+    # plotting()
     # evaluating()
     predicting()
 
