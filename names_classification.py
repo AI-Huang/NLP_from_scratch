@@ -132,8 +132,8 @@ def evaluate(rnn, line_tensor):
     return output
 
 
-def reload_model():
-    # Reload weights
+def restore_model():
+    # Restore network and  weights
     n_hidden = 128
     rnn = RNN(n_letters, n_hidden, n_categories)
 
@@ -150,7 +150,7 @@ def reload_model():
 
 
 def evaluating():
-    rnn = reload_model()
+    rnn = restore_model()
 
     # Keep track of correct guesses in a confusion matrix
     confusion = torch.zeros(n_categories, n_categories)
@@ -189,7 +189,7 @@ def evaluating():
 
 
 def predicting():
-    rnn = reload_model()
+    rnn = restore_model()
 
     def predict(rnn, input_line, n_predictions=3):
         print('\n> %s' % input_line)

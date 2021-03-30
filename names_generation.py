@@ -12,7 +12,8 @@ import math
 import pickle
 import torch
 import torch.nn as nn
-from NLP_from_scratch.utils.names_generation import n_letters, all_categories, n_categories, randomTrainingExample
+from NLP_from_scratch.utils.names_generation import all_letters, n_letters, all_categories, n_categories
+from NLP_from_scratch.utils.names_generation import randomTrainingExample, categoryTensor, inputTensor
 from NLP_from_scratch.models.names_generation import RNN
 
 
@@ -111,14 +112,71 @@ def plotting():
     plt.show()
 
 
-def evaluating():
-    pass
+def restore_model():
+    # Restore network and  weights
+    n_hidden = 128
+    rnn = RNN(n_letters, n_hidden, n_letters, n_categories)
+
+    save_dir = "./assets/results/names_generation/weights"
+    only_pt_files = [f for f in os.listdir(save_dir) if os.path.isfile(
+        os.path.join(save_dir, f)) and f.endswith(".pt")]
+
+    weights_name = only_pt_files[-1]
+    weights_path = os.path.join(save_dir, weights_name)
+    rnn.load_state_dict(torch.load(weights_path))
+    print(f"Loaded weights from: {weights_path}.")
+
+    return rnn
+
+
+def sample(rnn, category, start_letter='A', max_length=20):
+    """
+    Sample from a category and starting letter.
+    """
+    with torch.no_grad():  # no need to track history in sampling
+        category_tensor = categoryTensor(category)
+        input = inputTensor(start_letter)
+        hidden = rnn.initHidden()
+
+        output_name = start_letter
+
+        for i in range(max_length):
+            output, hidden = rnn(category_tensor, input[0], hidden)
+            topv, topi = output.topk(1)
+            topi = topi[0][0]
+            if topi == n_letters - 1:
+                break
+            else:
+                letter = all_letters[topi]
+                output_name += letter
+            input = inputTensor(letter)
+
+        return output_name
+
+
+def samples(rnn, category, start_letters='ABC'):
+    """samples
+    Get multiple samples from one category and multiple starting letters
+    """
+    for start_letter in start_letters:
+        print(sample(rnn, category, start_letter))
+
+
+def sampling():
+    # Restore network
+    rnn = restore_model()
+
+    # Sampling
+    samples(rnn, 'Russian', 'RUS')
+    samples(rnn, 'German', 'GER')
+    samples(rnn, 'Spanish', 'SPA')
+    samples(rnn, 'Chinese', 'CHI')
 
 
 def main():
     # training()
-    plotting()
-    # evaluating()
+    # plotting()
+    sampling()
     # predicting()
 
 
