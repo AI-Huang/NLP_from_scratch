@@ -51,10 +51,7 @@ def tensors_from_pair(input_lang, output_lang, pair, device):
     return (input_tensor, target_tensor)
 
 
-teacher_forcing_ratio = 0.5
-
-
-def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length, device):
+def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length, device, teacher_forcing_ratio=0.5):
     encoder_hidden = encoder.init_hidden().to(device)
 
     encoder_optimizer.zero_grad()
@@ -74,7 +71,6 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
         encoder_outputs[ei] = encoder_output[0, 0]
 
     decoder_input = torch.tensor([[SOS_token]], device=device)
-
     decoder_hidden = encoder_hidden
 
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
@@ -139,10 +135,10 @@ def train_iterations(training_pairs, encoder, decoder, n_iters, print_every=1000
     encoder_optimizer = optim.SGD(encoder.parameters(), lr=learning_rate)
     decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate)
 
-    criterion = nn.NLLLoss()
+    criterion = nn.NLLLoss()  # Loss
 
     for n_iter in range(1, n_iters + 1):
-        training_pair = training_pairs[n_iter - 1]
+        training_pair = training_pairs[n_iter-1]
         input_tensor, target_tensor = training_pair[0], training_pair[1]
 
         loss = train(input_tensor, target_tensor, encoder, decoder,

@@ -91,14 +91,14 @@ def training():
             all_losses.append(current_loss / plot_every)
             current_loss = 0
 
-    log_dir = "./assets/results/names_classification/logs"
+    log_dir = "./results/names_classification/logs"
     os.makedirs(log_dir, exist_ok=True)
     path = os.path.join(log_dir, "all_losses.pickle")
     with open(path, "wb") as f:
         pickle.dump(all_losses, f)
         print(f"Saved all_losses to: {path}")
 
-    save_dir = "./assets/results/names_classification/weights"
+    save_dir = "./results/names_classification/weights"
     os.makedirs(save_dir, exist_ok=True)
     weights_name = f"rnn_model-loss-{all_losses[-1]:.4f}.pt"
     weights_path = os.path.join(save_dir, weights_name)
@@ -109,7 +109,7 @@ def training():
 def plotting():
     import matplotlib.pyplot as plt
 
-    log_dir = "./assets/results/names_generation/logs"
+    log_dir = "./results/names_generation/logs"
     os.makedirs(log_dir, exist_ok=True)
     path = os.path.join(log_dir, "all_losses.pickle")
     with open(path, "rb") as f:
@@ -137,7 +137,7 @@ def restore_model():
     n_hidden = 128
     rnn = RNN(n_letters, n_hidden, n_categories)
 
-    save_dir = "./assets/results/names_classification/weights"
+    save_dir = "./results/names_classification/weights"
     only_pt_files = [f for f in os.listdir(save_dir) if os.path.isfile(
         os.path.join(save_dir, f)) and f.endswith(".pt")]
 
@@ -209,6 +209,10 @@ def predicting():
     predict(rnn, 'Dovesky')
     predict(rnn, 'Jackson')
     predict(rnn, 'Satoshi')
+
+# TODO
+# def parse_args():
+# pass
 
 
 def main():

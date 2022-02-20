@@ -4,7 +4,7 @@ NLP_from_scratch, PyTorch NLP tutorials series.
 
 ## NLP: Names Classification with RNN
 
-![RNN Model](./assets/rnn_model.png)
+![RNN Model](./assets/fig/rnn_model.png)
 
 ### Prepare Data's Pipeline
 
@@ -30,7 +30,7 @@ This is not alphabetical due to the `glob` package. However, this order is which
 
 ## NLP: Names Generation with RNN
 
-![RNN Model for Names Generation](./assets/rnn_model_2.png)
+![RNN Model for Names Generation](./assets/fig/rnn_model_2.png)
 
 This model is supervised and fed by (category, line, line). Notice that the target line is totally the same with the input line but with different data representation and has an extra `EOS`.
 
